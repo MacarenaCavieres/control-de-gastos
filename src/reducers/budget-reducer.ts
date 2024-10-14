@@ -12,6 +12,7 @@ export const budgetReducer = (state: BudgetState = initialState, actions: Budget
     if (actions.type === "define-budget") {
         return {
             ...state,
+            budget: actions.payload.newBudget,
         };
     }
 
