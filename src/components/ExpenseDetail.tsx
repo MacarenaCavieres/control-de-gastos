@@ -10,30 +10,37 @@ import "react-swipeable-list/dist/styles.css";
 import { formatCurrency, formatDate } from "../helpers";
 import { Expense } from "../types";
 import { categories } from "../data/categories";
+import { useBudget } from "../hooks/useBudget";
 
 type ExpenseDetailProps = {
     expense: Expense;
 };
 
 export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
+    const { dispatch } = useBudget();
     const categoryName = useMemo(
         () => categories.filter((item) => item.id === expense.expenseCategory)[0],
         [expense]
     );
 
-    const leadingActions = () => {
+    const leadingActions = () => (
         <LeadingActions>
-            <SwipeAction onClick={() => console.log("actualizar")}>Actualizar</SwipeAction>
-        </LeadingActions>;
-    };
+            <SwipeAction onClick={() => dispatch({ type: "get-expense-by-id", payload: { id: expense.id } })}>
+                Actualizar
+            </SwipeAction>
+        </LeadingActions>
+    );
 
-    const trailingActions = () => {
+    const trailingActions = () => (
         <TrailingActions>
-            <SwipeAction onClick={() => console.log("Eliminar")} destructive={true}>
+            <SwipeAction
+                onClick={() => dispatch({ type: "remove-expense", payload: { id: expense.id } })}
+                destructive={true}
+            >
                 Eliminar
             </SwipeAction>
-        </TrailingActions>;
-    };
+        </TrailingActions>
+    );
 
     return (
         <SwipeableList>

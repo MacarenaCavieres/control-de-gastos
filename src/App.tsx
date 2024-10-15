@@ -13,7 +13,7 @@ function App() {
     useEffect(() => {
         localStorage.setItem("budget", JSON.stringify(state.budget));
         localStorage.setItem("expense", JSON.stringify(state.expenses));
-    }, [state.budget]);
+    }, [state.budget, state.expenses]);
     return (
         <>
             <header className="text-center text-4xl md:text-6xl font-bold text-white bg-rose-700 py-14 ">
