@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import DatePicker from "react-date-picker";
 import { categories } from "../data/categories";
 import { DraftExpense, Value } from "../types";
@@ -44,7 +44,7 @@ export default function ExpenseForm() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (Object.values(expense).includes("")) {
@@ -124,7 +124,9 @@ export default function ExpenseForm() {
                 </select>
             </div>
             <div className="flex flex-col gap-2">
-                <label htmlFor="expenseDate">Fecha Gasto:</label>
+                <label htmlFor="expenseDate" className="text-xl">
+                    Fecha Gasto:
+                </label>
                 <DatePicker
                     name="expenseDate"
                     className="bg-slate-100 p-2 border-0"

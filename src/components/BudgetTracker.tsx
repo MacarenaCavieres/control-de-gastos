@@ -10,7 +10,7 @@ export default function BudgetTracker() {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="flex justify-center ms-5">
+            <div className="flex justify-center mx-5">
                 <CircularProgressbar
                     value={percentage}
                     styles={buildStyles({

@@ -55,7 +55,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
                         <img
                             src={`./icono_${categoryName.icon}.svg`}
                             alt="Icono categoría"
-                            className="w-20"
+                            className="w-10 md:w-20"
                         />
                     </div>
                     <div className="flex-1 space-y-2">
