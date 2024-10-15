@@ -1,6 +1,5 @@
 import { createContext, Dispatch, ReactNode, useReducer } from "react";
 import { BudgetActions, budgetReducer, BudgetState, initialState } from "../reducers/budget-reducer";
-
 type BudgetProviderProps = {
     children: ReactNode;
 };

@@ -17,11 +17,15 @@ const localStorageBudget = () => {
     const getBudget = localStorage.getItem("budget");
     return getBudget ? JSON.parse(getBudget) : 0;
 };
+const localStorageExpense = () => {
+    const expenseSaved = localStorage.getItem("expense");
+    return expenseSaved ? JSON.parse(expenseSaved) : [];
+};
 
 export const initialState = {
     budget: localStorageBudget(),
     modal: false,
-    expenses: [],
+    expenses: localStorageExpense(),
 };
 
 const createExpense = (draftExpense: DraftExpense): Expense => {
