@@ -1,6 +1,6 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import DatePicker from "react-date-picker";
 import { categories } from "../data/categories";
-import { ChangeEvent, useEffect, useState } from "react";
 import { DraftExpense, Value } from "../types";
 import { useBudget } from "../hooks/useBudget";
 import ErrorMessage from "./ErrorMessage";
@@ -15,15 +15,17 @@ const initialState = {
 };
 
 export default function ExpenseForm() {
-    const { state, dispatch } = useBudget();
+    const { state, dispatch, amountNet } = useBudget();
 
     const [expense, setExpense] = useState<DraftExpense>(initialState);
     const [error, setError] = useState("");
+    const [previousAmount, setPreviousAmount] = useState(0);
 
     useEffect(() => {
         if (state.editingId) {
             const editingExpense = state.expenses.filter((expense) => expense.id === state.editingId)[0];
             setExpense(editingExpense);
+            setPreviousAmount(editingExpense.expenseAmount);
         }
     }, [state.editingId]);
 
@@ -50,6 +52,11 @@ export default function ExpenseForm() {
             return;
         }
 
+        if (expense.expenseAmount - previousAmount > amountNet) {
+            setError("El gasto sobrepasa el presupuesto");
+            return;
+        }
+
         if (state.editingId) {
             dispatch({
                 type: "update-expense",
@@ -60,12 +67,13 @@ export default function ExpenseForm() {
         }
 
         setExpense(initialState);
+        setPreviousAmount(0);
     };
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
             <legend className="uppercase font-black text-center text-2xl border-b-4 border-rose-700 py-2">
-                Nuevo gasto
+                {state.editingId ? "Editar Gasto" : "Nuevo gasto"}
             </legend>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -128,7 +136,7 @@ export default function ExpenseForm() {
             <input
                 type="submit"
                 className="bg-rose-700 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
-                value={"Registrar Gasto"}
+                value={state.editingId ? "Actualizar Gasto" : "Registrar Gasto"}
             />
         </form>
     );
