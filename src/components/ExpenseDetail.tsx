@@ -7,10 +7,11 @@ import {
     TrailingActions,
 } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
-import { formatCurrency, formatDate } from "../helpers";
+import { formatDate } from "../helpers";
 import { Expense } from "../types";
 import { categories } from "../data/categories";
 import { useBudget } from "../hooks/useBudget";
+import AmountDisplay from "./AmountDisplay";
 
 type ExpenseDetailProps = {
     expense: Expense;
@@ -64,7 +65,8 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
                             {formatDate(expense.expenseDate!.toString())}
                         </p>
                     </div>
-                    <p>{formatCurrency(expense.expenseAmount)}</p>
+
+                    <AmountDisplay amount={expense.expenseAmount} />
                 </div>
             </SwipeableListItem>
         </SwipeableList>

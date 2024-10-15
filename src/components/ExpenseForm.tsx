@@ -1,6 +1,6 @@
 import DatePicker from "react-date-picker";
 import { categories } from "../data/categories";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { DraftExpense, Value } from "../types";
 import { useBudget } from "../hooks/useBudget";
 import ErrorMessage from "./ErrorMessage";
@@ -15,10 +15,17 @@ const initialState = {
 };
 
 export default function ExpenseForm() {
-    const { dispatch } = useBudget();
+    const { state, dispatch } = useBudget();
 
     const [expense, setExpense] = useState<DraftExpense>(initialState);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (state.editingId) {
+            const editingExpense = state.expenses.filter((expense) => expense.id === state.editingId)[0];
+            setExpense(editingExpense);
+        }
+    }, [state.editingId]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         const isAmount = ["expenseAmount"].includes(e.target.name);
@@ -43,7 +50,15 @@ export default function ExpenseForm() {
             return;
         }
 
-        dispatch({ type: "add-expense", payload: { newExpense: expense } });
+        if (state.editingId) {
+            dispatch({
+                type: "update-expense",
+                payload: { newExpense: { id: state.editingId, ...expense } },
+            });
+        } else {
+            dispatch({ type: "add-expense", payload: { newExpense: expense } });
+        }
+
         setExpense(initialState);
     };
 

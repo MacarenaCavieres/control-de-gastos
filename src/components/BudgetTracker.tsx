@@ -1,4 +1,8 @@
+import { useBudget } from "../hooks/useBudget";
+import AmountDisplay from "./AmountDisplay";
+
 export default function BudgetTracker() {
+    const { state, amountSpent, amountNet } = useBudget();
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="mx-5">
@@ -11,9 +15,9 @@ export default function BudgetTracker() {
                 >
                     Resetear App
                 </button>
-                <p className="font-bold text-2xl">Presupuesto: $800000</p>
-                <p className="font-bold text-2xl">Disponible: $40000</p>
-                <p className="font-bold text-2xl">Gastado: $300000</p>
+                <AmountDisplay amount={state.budget} label="Presupuesto" />
+                <AmountDisplay amount={amountNet} label="Disponible" />
+                <AmountDisplay amount={amountSpent} label="Gastado" />
             </div>
         </div>
     );
