@@ -96,7 +96,7 @@ export default function ExpenseForm() {
                     Cantidad Gasto
                 </label>
                 <input
-                    type="text"
+                    type="number"
                     name="expenseAmount"
                     className="bg-slate-100 p-2"
                     placeholder="Ingrese la cantidad del gasto"
